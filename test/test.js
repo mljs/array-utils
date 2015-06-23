@@ -80,4 +80,37 @@ describe('Array Utilities', function () {
         result[1].should.be.equal(20);
         result[2].should.be.equal(26);
     });
+
+    function closestPoint(X, value) {
+        var currentPoint = X.length / 2;
+        var imin = 0, imax = X.length;
+        var middlePoint;
+        while(imax >= imin) {
+            middlePoint = Math.floor((imax + imin) / 2);
+            if(X[middlePoint] === value)
+                return middlePoint;
+
+            if(X[middlePoint] < value) {
+                imin = middlePoint + 1;
+            } else {
+                imax = middlePoint - 1;
+            }
+        }
+
+        var i = middlePoint;
+        var middle = value > X[i] && value < X[i + 1];
+        while(!middle) {
+            if(value < X[i]) i--;
+            else i++;
+            middle = value > X[i] && value < X[i + 1];
+        }
+
+        return i;
+    }
+
+    it('aldfkjads', function () {
+        var X = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+        var value = -0.1;
+        console.log(closestPoint(X, value));
+    })
 });

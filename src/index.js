@@ -1,1 +1,2 @@
-module.exports = require('./ArrayUtils');
+module.exports = exports = require('./ArrayUtils');
+exports = require('./getEquallySpace');
