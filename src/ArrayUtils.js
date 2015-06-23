@@ -56,6 +56,21 @@ function coordMatrixToCoordArray(coordMatrix) {
     return coodinatesArray;
 }
 
+function transpose(matrix) {
+    var resultMatrix = new Array(matrix[0].length);
+    for(var i = 0; i < resultMatrix.length; ++i) {
+        resultMatrix[i] = new Array(matrix.length);
+    }
+
+    for (i = 0; i < matrix.length; ++i) {
+        for(var j = 0; j < matrix[0].length; ++j) {
+            resultMatrix[j][i] = matrix[i][j];
+        }
+    }
+
+    return resultMatrix;
+}
+
 function pointsToCoordArray(points) {
     var coodinatesArray = new Array(points.length * points[0].length);
     var k = 0;
@@ -73,6 +88,8 @@ module.exports = {
     coordArrayToPoints: coordArrayToPoints,
     coordArrayToCoordMatrix: coordArrayToCoordMatrix,
     coordMatrixToCoordArray: coordMatrixToCoordArray,
-    pointsToCoordArray: pointsToCoordArray
+    coordMatrixToPoints: transpose,
+    pointsToCoordArray: pointsToCoordArray,
+    pointsToCoordMatrix: transpose
 };
 

@@ -33,6 +33,16 @@ describe('Array Utilities', function () {
         result[12].should.be.equal(4);
     });
 
+    it('Coordinate Matrix to Points', function () {
+        var mat = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]];
+
+        var result = ArrayUtils.coordMatrixToPoints(mat);
+
+        (result[1][0]).should.be.equal(2);
+        (result[1][1]).should.be.equal(2);
+        (result[1][2]).should.be.equal(2);
+    });
+
     it('Points to 1D array', function () {
         var mat = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3], [4, 4, 4, 4]];
 
@@ -41,5 +51,15 @@ describe('Array Utilities', function () {
         result[0].should.be.equal(1);
         result[5].should.be.equal(2);
         result[12].should.be.equal(4);
+    });
+
+    it('Points to Coordinate Matrix', function () {
+        var mat = [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3], [4, 4, 4, 4]];
+
+        var result = ArrayUtils.pointsToCoordMatrix(mat);
+
+        (result[0][0]).should.be.equal(1);
+        (result[1][1]).should.be.equal(2);
+        (result[2][2]).should.be.equal(3);
     });
 });
