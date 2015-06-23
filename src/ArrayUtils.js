@@ -28,14 +28,23 @@ function CoordArrayToCoordMatrix(array, dimentions) {
     }
 
     var coordinatesArray = new Array(dimentions);
-    var points = coordinatesArray.length / dimentions;
+    var points = array.length / dimentions;
     for (var i = 0; i < coordinatesArray.length; i++) {
         coordinatesArray[i] = new Array(points);
-
     }
+
+    for(i = 0; i < array.length; i += dimentions) {
+        for(var j = 0; j < dimentions; ++j) {
+            var currentPoint = Math.floor(i / dimentions);
+            coordinatesArray[j][currentPoint] = array[i + j];
+        }
+    }
+
+    return coordinatesArray;
 }
 
 module.exports = {
-    CoordArrayToPoints: CoordArrayToPoints
+    CoordArrayToPoints: CoordArrayToPoints,
+    CoordArrayToCoordMatrix: CoordArrayToCoordMatrix
 };
 
