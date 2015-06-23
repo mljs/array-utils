@@ -18,10 +18,20 @@ describe('Array Utilities', function () {
 
         var result = ArrayUtils.CoordArrayToCoordMatrix(array, 3);
 
-        console.log(result);
-
         (result[0][0]).should.be.equal(1);
-        (result[1][0]).should.be.equal(1);
-        (result[2][0]).should.be.equal(1);
+        (result[1][1]).should.be.equal(2);
+        (result[2][2]).should.be.equal(3);
     });
+
+    it('Coordinate Matrix to 1D array', function () {
+        var mat = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]];
+
+        var result = ArrayUtils.CoordMatrixToCoordArray(mat);
+
+        result[0].should.be.equal(1);
+        result[5].should.be.equal(2);
+        result[12].should.be.equal(4);
+    });
+
+
 });

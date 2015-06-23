@@ -43,8 +43,22 @@ function CoordArrayToCoordMatrix(array, dimentions) {
     return coordinatesArray;
 }
 
+function CoordMatrixToCoordArray(coordMatrix) {
+    var coodinatesArray = new Array(coordMatrix.length * coordMatrix[0].length);
+    var k = 0;
+    for(var i = 0; i < coordMatrix[0].length; ++i) {
+        for(var j = 0; j < coordMatrix.length; ++j) {
+            coodinatesArray[k] = coordMatrix[j][i];
+            ++k;
+        }
+    }
+
+    return coodinatesArray;
+}
+
 module.exports = {
     CoordArrayToPoints: CoordArrayToPoints,
-    CoordArrayToCoordMatrix: CoordArrayToCoordMatrix
+    CoordArrayToCoordMatrix: CoordArrayToCoordMatrix,
+    CoordMatrixToCoordArray: CoordMatrixToCoordArray
 };
 
