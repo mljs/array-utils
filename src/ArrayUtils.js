@@ -133,12 +133,46 @@ function pointsToCoordArray(points) {
     return coodinatesArray;
 }
 
+/**
+ * Apply the dot product between the smaller vector and a subsets of the
+ * largest one.
+ *
+ * @param firstVector
+ * @param secondVector
+ * @returns {Array} each dot product of size of the difference between the
+ *                  larger and the smallest one.
+ */
+function applyDotProduct(firstVector, secondVector) {
+    var largestVector, smallestVector;
+    if(firstVector.length <= secondVector.length) {
+        smallestVector = firstVector;
+        largestVector = secondVector;
+    } else {
+        smallestVector = secondVector;
+        largestVector = firstVector;
+    }
+
+    var difference = largestVector.length - smallestVector.length + 1;
+    var dotProductApplied = new Array(difference);
+
+    for (var i = 0; i < difference; ++i) {
+        var sum = 0;
+        for (var j = 0; j < smallestVector.length; ++j) {
+            sum += smallestVector[j] * largestVector[i + j];
+        }
+        dotProductApplied[i] = sum;
+    }
+
+    return dotProductApplied;
+}
+
 module.exports = {
     coordArrayToPoints: coordArrayToPoints,
     coordArrayToCoordMatrix: coordArrayToCoordMatrix,
     coordMatrixToCoordArray: coordMatrixToCoordArray,
     coordMatrixToPoints: transpose,
     pointsToCoordArray: pointsToCoordArray,
-    pointsToCoordMatrix: transpose
+    pointsToCoordMatrix: transpose,
+    applyDotProduct: applyDotProduct
 };
 
