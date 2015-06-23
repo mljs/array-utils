@@ -1,6 +1,6 @@
 'use strict';
 
-function CoordArrayToPoints(array, dimentions) {
+function coordArrayToPoints(array, dimentions) {
     if(array.length % dimentions !== 0) {
         throw new RangeError('Dimentions number must be accordance with the size of the array.');
     }
@@ -22,7 +22,7 @@ function CoordArrayToPoints(array, dimentions) {
     return pointsArr;
 }
 
-function CoordArrayToCoordMatrix(array, dimentions) {
+function coordArrayToCoordMatrix(array, dimentions) {
     if(array.length % dimentions !== 0) {
         throw new RangeError('Dimentions number must be accordance with the size of the array.');
     }
@@ -43,7 +43,7 @@ function CoordArrayToCoordMatrix(array, dimentions) {
     return coordinatesArray;
 }
 
-function CoordMatrixToCoordArray(coordMatrix) {
+function coordMatrixToCoordArray(coordMatrix) {
     var coodinatesArray = new Array(coordMatrix.length * coordMatrix[0].length);
     var k = 0;
     for(var i = 0; i < coordMatrix[0].length; ++i) {
@@ -56,9 +56,23 @@ function CoordMatrixToCoordArray(coordMatrix) {
     return coodinatesArray;
 }
 
+function pointsToCoordArray(points) {
+    var coodinatesArray = new Array(points.length * points[0].length);
+    var k = 0;
+    for(var i = 0; i < points.length; ++i) {
+        for(var j = 0; j < points[0].length; ++j) {
+            coodinatesArray[k] = points[i][j];
+            ++k;
+        }
+    }
+
+    return coodinatesArray;
+}
+
 module.exports = {
-    CoordArrayToPoints: CoordArrayToPoints,
-    CoordArrayToCoordMatrix: CoordArrayToCoordMatrix,
-    CoordMatrixToCoordArray: CoordMatrixToCoordArray
+    coordArrayToPoints: coordArrayToPoints,
+    coordArrayToCoordMatrix: coordArrayToCoordMatrix,
+    coordMatrixToCoordArray: coordMatrixToCoordArray,
+    pointsToCoordArray: pointsToCoordArray
 };
 
