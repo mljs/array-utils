@@ -11,9 +11,9 @@ var originalOptions = {
 };
 
 var options = {
-    from: -14,
-    to: 28,
-    nbPoints: 8
+    from: 0,
+    to: 16,
+    nbPoints: 5
 };
 
 var result = gesd(x, y, options);

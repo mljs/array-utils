@@ -40,25 +40,27 @@ console.log(`
     var min = start;
     var max = start + step;
 
-    var previousX = -Infinity;
+    var previousX = Number.MIN_VALUE;
     var previousY = 0;
     var nextX = x[0] - originalStep;
     var nextY = 0;
 
     var currentValue = 0;
     var slope = 0;
+    var intercept = 0;
 
     var i = 0; // index of input
     var j = 0; // index of output
 
     function getValue() {
-        // TODO return value using min, max and slope
-        return slope * (max - min);
+        //TODO find something
+        var something = step;
+        return integral(previousX, previousY, max, slope*(max - previousX) + previousY) / something;
     }
 
-    function updateSlope() {
-        // TODO slope ok ?
+    function updateParameters() {
         slope = (nextY - previousY) / (nextX - previousX);
+        intercept = -slope*previousX + previousY;
     }
 
     main: while(true) {
@@ -92,13 +94,19 @@ console.log(`
             nextX = nextX + (nextX - x[i - 2]);
             nextY = 0;
         } else {
-            nextX = Infinity;
+            nextX = Number.MAX_VALUE;
             nextY = 0;
         }
 
-        updateSlope();
+        updateParameters();
     }
 
     return output;
 
 }
+
+function integral(x0, x1, slope, intercept) {
+    return (0.5 * slope * x1 * x1 + intercept * x1) - (0.5 * slope * x0 * x0 + intercept * x0);
+}
+
+exports.integral = integral;

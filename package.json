@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/mljs/ArrayUtils/issues"
   },
-  "homepage": "https://github.com/mljs/ArrayUtils#readme"
+  "homepage": "https://github.com/mljs/ArrayUtils#readme",
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "mocha-better-spec-reporter": "^2.1.1",
+    "should": "^7.0.1",
+    "should-approximately-deep": "^1.1.0"
+  }
 }
