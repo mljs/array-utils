@@ -1,7 +1,5 @@
 'use strict';
 
-exports.getEquallySpacedData = getEquallySpacedData;
-
 function getEquallySpacedData(x, y, options) {
 
     var xLength = x.length;
@@ -13,22 +11,22 @@ function getEquallySpacedData(x, y, options) {
     var to = (options.to === undefined) ? x[x.length - 1] : options.to;
     // TODO assertSmallerThanOrEqual(from, to)
 
-    var nbPoints = (options.nbPoints === undefined) ? 100 : options.nbPoints;
-    // TODO assertAboweOne(nbPoints)
+    var nbPoints = (options.numberOfPoints === undefined) ? 100 : options.numberOfPoints;
+    // TODO assertAboveOne(nbPoints)
 
     var step = (to - from) / (nbPoints - 1);
     var halfstep = step / 2;
 
-console.log(`
-    x length:   ${x.length}
-    x from:     ${x[0]}
-    x to:       ${x[xLength - 1]}
+    /*console.log(`
+        x length:   ${x.length}
+        x from:     ${x[0]}
+        x to:       ${x[xLength - 1]}
 
-    new length: ${nbPoints}
-    from:       ${from}
-    to:         ${to}
-    step        ${step}
-`);
+        new length: ${nbPoints}
+        from:       ${from}
+        to:         ${to}
+        step        ${step}
+    `);*/
 
     var start = from - halfstep;
     var end = to + halfstep;
@@ -53,9 +51,8 @@ console.log(`
     var j = 0; // index of output
 
     function getValue() {
-        //TODO find something
-        var something = step;
-        return integral(previousX, previousY, max, slope*(max - previousX) + previousY) / something;
+        return integral(previousX, max, slope, intercept);
+        //return integral(previousX, previousY, max, slope*(max - previousX) + previousY) / elementToDivide;
     }
 
     function updateParameters() {
@@ -64,11 +61,11 @@ console.log(`
     }
 
     main: while(true) {
-        console.log('s:', slope);
+        // console.log('s:', slope);
         while ((nextX - max >= 0)) {
             // no overlap with original point, just consume current value
-            console.log('  p', currentValue + getValue());
-            output[j++] = currentValue + getValue();
+            // console.log('  p', currentValue + getValue());
+            output[j++] = (currentValue + getValue()) / step;
             if (j === nbPoints)
                 break main;
 
@@ -109,4 +106,5 @@ function integral(x0, x1, slope, intercept) {
     return (0.5 * slope * x1 * x1 + intercept * x1) - (0.5 * slope * x0 * x0 + intercept * x0);
 }
 
+exports.getEquallySpacedData = getEquallySpacedData;
 exports.integral = integral;
