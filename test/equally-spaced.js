@@ -16,7 +16,7 @@ describe('get equally spaced data', function () {
         integral(-1, 3, -1, 0).should.equal(-4);
     });
 
-    it('main test', function () {
+    it('getEquallySpacedData smooth', function () {
         var x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         var y = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -49,17 +49,34 @@ describe('get equally spaced data', function () {
         ans[0].should.be.equal(9.5);
         ans[1].should.be.equal(5);
         ans[2].should.be.equal(0);
+    });
+
+    it('getEquallySpacedData slot', function () {
+        var x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        var y = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+        var ans = getEquallySpacedData(x, y, {
+            from: 0,
+            to: 10,
+            numberOfPoints: 3,
+            variant: "slot"
+        });
+
+        ans[0].should.be.equal(0.75);
+        ans[1].should.be.equal(5);
+        ans[2].should.be.equal(5.4);
 
         y = [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0];
         ans = getEquallySpacedData(x, y, {
             from: 4,
             to: 6,
-            numberOfPoints: 3
+            numberOfPoints: 3,
+            variant: "slot"
         });
 
         ans[0].should.be.equal(4);
-        ans[1].should.be.equal(4.75); // deflation
+        ans[1].should.be.equal(5);
         ans[2].should.be.equal(4);
-    });
+    })
 
 });
