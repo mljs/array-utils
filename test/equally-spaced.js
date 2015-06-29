@@ -1,7 +1,7 @@
 'use strict';
 
-var integral = require('../src/getEquallySpace3').integral;
-var getEquallySpacedData = require('../src/getEquallySpace3').getEquallySpacedData;
+var integral = require('../src/getEquallySpace').integral;
+var getEquallySpacedData = require('..').getEquallySpacedData;
 
 describe('get equally spaced data', function () {
 

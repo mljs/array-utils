@@ -2,7 +2,7 @@
   "name": "ml-array-utils",
   "version": "0.0.1",
   "description": "",
-  "main": "src/ArrayUtils.js",
+  "main": "src/index.js",
   "directories": {
     "test": "test"
   },

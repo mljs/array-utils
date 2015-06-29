@@ -1,98 +1,103 @@
 'use strict';
 
-module.exports = Spectra;
+function getEquallySpacedData(x, y, options) {
 
-function Spectra(X, Y) {
-    this.data = new Array(X.length - 1);
-    if(X[0] > X[1]) {
-        X = X.reverse();
-        Y = Y.reverse();
+    var xLength = x.length;
+    // TODO assertSameLength(x, y)
+
+    if (options === undefined) options = {};
+
+    var from = (options.from === undefined) ? x[0] : options.from;
+    var to = (options.to === undefined) ? x[x.length - 1] : options.to;
+    // TODO assertSmallerThanOrEqual(from, to)
+
+    var numberOfPoints = (options.numberOfPoints === undefined) ? 100 : options.numberOfPoints;
+    // TODO assertAboveOne(numberOfPoints)
+
+    var step = (to - from) / (numberOfPoints - 1);
+    var halfStep = step / 2;
+
+    var start = from - halfStep;
+    var output = new Array(numberOfPoints);
+
+    var originalStep = x[1] - x[0];
+
+    // Init main variables
+    var min = start;
+    var max = start + step;
+
+    var previousX = Number.MIN_VALUE;
+    var previousY = 0;
+    var nextX = x[0] - originalStep;
+    var nextY = 0;
+
+    var currentValue = 0;
+    var slope = 0;
+    var intercept = 0;
+    var integralAtMin = 0;
+    var integralAtMax = 0;
+
+    var i = 0; // index of input
+    var j = 0; // index of output
+
+    function getValue() {
+        return integral(previousX, nextX, slope, intercept);
     }
-    this.X = X;
-    this.Y = Y;
 
-    for (var i = 0; i < X.length - 1; i++) {
-        this.data[i] = {
-            slope: slope(X[i], Y[i], X[i + 1], Y[i + 1]),
-            integral: trapezeIntegral(X[i], Y[i], X[i + 1], Y[i + 1])
-        };
+    function updateParameters() {
+        slope = getSlope(previousX, previousY, nextX, nextY);
+        intercept = -slope*previousX + previousY;
     }
-}
 
-function closestPoint(X, value) {
-    var currentPoint = X.length / 2;
-    var imin = 0, imax = X.length;
-    var middlePoint;
-    while(imax >= imin) {
-        middlePoint = Math.floor((imax + imin) / 2);
-        if(X[middlePoint] === value)
-            return middlePoint;
+    function getSlope(x0, y0, x1, y1) {
+        return (y1 - y0) / (x1 - x0);
+    }
 
-        if(X[middlePoint] < value) {
-            imin = middlePoint + 1;
+    main: while(true) {
+        // console.log('s:', slope);
+        while ((nextX - max >= 0)) {
+            // no overlap with original point, just consume current value
+            integralAtMax = currentValue + integral(0, max - previousX, slope, previousY);
+            output[j++] = (integralAtMax - integralAtMin) / step;
+
+            if (j === numberOfPoints)
+                break main;
+
+            min = max;
+            max += step;
+            integralAtMin = integralAtMax;
+        }
+
+        if(previousX <= min && min <= nextX)
+            integralAtMin = currentValue + integral(0, min - previousX, slope, previousY);
+
+        currentValue += getValue();
+
+        previousX = nextX;
+        previousY = nextY;
+
+        if (i < xLength) {
+            nextX = x[i];
+            nextY = y[i];
+            i++;
+        } else if (i === xLength) {
+            nextX = nextX + (nextX - x[i - 2]);
+            nextY = 0;
         } else {
-            imax = middlePoint - 1;
+            nextX = Number.MAX_VALUE;
+            nextY = 0;
         }
+
+        updateParameters();
     }
 
-    var i = middlePoint;
-    var middle = value > X[i] && value < X[i + 1];
-    while(!middle) {
-        if(value < X[i]) i--;
-        else i++;
-        middle = value > X[i] && value < X[i + 1];
-    }
+    return output;
 
-    return i;
 }
 
-function trapezeIntegral(x1, y1, x2, y2) {
-    return ((y2 + y1) * (x2 - x1)) / 2;
+function integral(x0, x1, slope, intercept) {
+    return (0.5 * slope * x1 * x1 + intercept * x1) - (0.5 * slope * x0 * x0 + intercept * x0);
 }
 
-function slope(x1, y1, x2, y2) {
-    return (y2 - y1) / (x2 - x1);
-}
-
-Spectra.prototype.getEquallySpaced = function (from, to, numberOfPoints) {
-    var stepSize = (to - from) / numberOfPoints;
-
-    var X = new Array(numberOfPoints);
-    var Y = new Array(numberOfPoints);
-    var areas = new Array(numberOfPoints - 1);
-    for (var i = 0; i < numberOfPoints; i++) {
-        X[i] = from + (numberOfPoints * i);
-        Y[i] = areas[i] = 0;
-    }
-
-    var morePoints = numberOfPoints > this.X.length;
-    var currentIndex = from < X[0] ? 0 : closestPoint(X, from); // Be careful if is outside before
-    for(var currentPosition = from, k = 0; currentPosition < to; currentPosition += stepSize, k++) {
-        // outside after
-        if(currentPosition < this.X[0]) {
-            if(currentPosition + stepSize >= this.X[0]) {
-                areas[k] = trapezeIntegral(0, 0, this.X[0], this.Y[0]);
-            }
-            continue;
-        }
-
-        // outside before
-        if(currentPosition > this.X[this.X.length - 1]) {
-            continue;
-        }
-
-        // inside of a valid range
-        if(morePoints) {
-            X[k] = currentPosition;
-
-            var slope = this.data[currentIndex].slope;
-            var constant = this.Y[currentIndex];
-            Y[k] = (currentPosition - this.X[currentIndex]) * slope + constant;
-        } else {
-
-        }
-
-    }
-};
-
-Spectra.prototype.integral
+exports.getEquallySpacedData = getEquallySpacedData;
+exports.integral = integral;
