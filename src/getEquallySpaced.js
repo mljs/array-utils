@@ -126,19 +126,14 @@ function getEquallySpacedData(x, y, options) {
             nextY = y[i];
             i++;
         } else if (i === xLength) {
-            nextX = nextX + lastOriginalStep;
+            nextX += lastOriginalStep;
             nextY = 0;
         }
-        /*else {
-            nextX = Number.MAX_VALUE;
-            nextY = 0;
-        }*/
 
         updateParameters();
     }
 
     return output;
-
 }
 /**
  * Function that calculates the integral of the line between two
