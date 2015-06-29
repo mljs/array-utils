@@ -1,5 +1,27 @@
 'use strict';
 
+/**
+ * Function that returns a Number array of equally spaced numberOfPoints
+ * containing a representation of intensities of the spectra arguments x
+ * and y.
+ *
+ * The options parameter contains an object in the following form:
+ * from: starting point
+ * to: last point
+ * numberOfPoints: number of points between from and to
+ * variant: "slot" or "smooth"
+ *
+ * The slot variant consist that each point in the new array is calculated
+ * averaging the existing points between the slot that belongs to the current
+ * value. The smooth variant is the same but takes the integral of the range
+ * of the slot and divide by the step size between two points in the new
+ * array.
+ *
+ * @param x
+ * @param y
+ * @param options
+ * @returns {Array} new array with the equally spaced data.
+ */
 function getEquallySpacedData(x, y, options) {
 
     var xLength = x.length;
@@ -68,7 +90,6 @@ function getEquallySpacedData(x, y, options) {
     main: while(true) {
         while (nextX - max >= 0) {
             // no overlap with original point, just consume current value
-            // for both
             var add = algorithm === "smooth" ? integral(0, max - previousX, slope, previousY) : previousY;
             sumAtMax = currentValue + add;
 
@@ -89,15 +110,13 @@ function getEquallySpacedData(x, y, options) {
         if(previousX <= min && min <= nextX) {
             add = algorithm === "smooth" ? integral(0, min - previousX, slope, previousY) : previousY;
             sumAtMin = currentValue + add;
-            if(algorithm === "slot") {
+            if(algorithm === "slot")
                 currentPoints++;
-            }
         }
 
         currentValue += getValue();
-        if(currentPoints !== 0) {
+        if(currentPoints !== 0)
             currentPoints++;
-        }
 
         previousX = nextX;
         previousY = nextY;
@@ -109,10 +128,11 @@ function getEquallySpacedData(x, y, options) {
         } else if (i === xLength) {
             nextX = nextX + lastOriginalStep;
             nextY = 0;
-        } else {
+        }
+        /*else {
             nextX = Number.MAX_VALUE;
             nextY = 0;
-        }
+        }*/
 
         updateParameters();
     }
@@ -120,7 +140,16 @@ function getEquallySpacedData(x, y, options) {
     return output;
 
 }
-
+/**
+ * Function that calculates the integral of the line between two
+ * x-coordinates, given the slope and intercept of the line.
+ *
+ * @param x0
+ * @param x1
+ * @param slope
+ * @param intercept
+ * @returns {number} integral value.
+ */
 function integral(x0, x1, slope, intercept) {
     return (0.5 * slope * x1 * x1 + intercept * x1) - (0.5 * slope * x0 * x0 + intercept * x0);
 }
