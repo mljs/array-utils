@@ -1,5 +1,5 @@
 
-var gesd = require('./src/getEquallySpace').getEquallySpacedData;
+var gesd = require('./src/getEquallySpaced').getEquallySpacedData;
 
 var x = [0, 4, 8, 12, 16];
 var y = [2, 5, 3, -1, 7];
