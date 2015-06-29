@@ -80,4 +80,5 @@ describe('Array Utilities', function () {
         result[1].should.be.equal(20);
         result[2].should.be.equal(26);
     });
+
 });
