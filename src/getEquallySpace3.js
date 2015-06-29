@@ -11,26 +11,15 @@ function getEquallySpacedData(x, y, options) {
     var to = (options.to === undefined) ? x[x.length - 1] : options.to;
     // TODO assertSmallerThanOrEqual(from, to)
 
-    var nbPoints = (options.numberOfPoints === undefined) ? 100 : options.numberOfPoints;
+    var numberOfPoints = (options.numberOfPoints === undefined) ? 100 : options.numberOfPoints;
     // TODO assertAboveOne(nbPoints)
 
-    var step = (to - from) / (nbPoints - 1);
-    var halfstep = step / 2;
+    var step = (to - from) / (numberOfPoints - 1);
+    var halfStep = step / 2;
 
-    /*console.log(`
-        x length:   ${x.length}
-        x from:     ${x[0]}
-        x to:       ${x[xLength - 1]}
-
-        new length: ${nbPoints}
-        from:       ${from}
-        to:         ${to}
-        step        ${step}
-    `);*/
-
-    var start = from - halfstep;
-    var end = to + halfstep;
-    var output = new Array(nbPoints);
+    var start = from - halfStep;
+    var end = to + halfStep;
+    var output = new Array(numberOfPoints);
 
     var originalStep = x[1] - x[0];
 
@@ -46,39 +35,44 @@ function getEquallySpacedData(x, y, options) {
     var currentValue = 0;
     var slope = 0;
     var intercept = 0;
+    var integralAtMin = 0;
+    var integralAtMax = 0;
 
     var i = 0; // index of input
     var j = 0; // index of output
 
     function getValue() {
-        return integral(previousX, max, slope, intercept);
-        //return integral(previousX, previousY, max, slope*(max - previousX) + previousY) / elementToDivide;
+        return integral(previousX, nextX, slope, intercept);
     }
 
     function updateParameters() {
-        slope = (nextY - previousY) / (nextX - previousX);
+        slope = getSlope(previousX, previousY, nextX, nextY);
         intercept = -slope*previousX + previousY;
+    }
+
+    function getSlope(x0, y0, x1, y1) {
+        return (y1 - y0) / (x1 - x0);
     }
 
     main: while(true) {
         // console.log('s:', slope);
         while ((nextX - max >= 0)) {
             // no overlap with original point, just consume current value
-            // console.log('  p', currentValue + getValue());
-            output[j++] = (currentValue + getValue()) / step;
-            if (j === nbPoints)
+            integralAtMax = currentValue + integral(0, max - previousX, slope, previousY);
+            output[j++] = (integralAtMax - integralAtMin) / step;
+
+            if (j === numberOfPoints)
                 break main;
 
-            currentValue = 0;
             min = max;
             max += step;
+            integralAtMin = integralAtMax;
         }
-        // now that nextX is between min and max, put max at the border
-        var oldMax = max;
-        max = nextX;
+
+        if(previousX <= min && min <= nextX)
+            integralAtMin = currentValue + integral(0, min - previousX, slope, previousY);
+
         currentValue += getValue();
-        min = max;
-        max = oldMax;
 
         previousX = nextX;
         previousY = nextY;
