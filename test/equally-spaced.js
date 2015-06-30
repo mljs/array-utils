@@ -77,6 +77,23 @@ describe('get equally spaced data', function () {
         ans[0].should.be.equal(4);
         ans[1].should.be.equal(5);
         ans[2].should.be.equal(4);
-    })
+    });
+
+    it('changing from and to', function () {
+        var x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        var y = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+        var ans = getEquallySpacedData(x, y, {
+            from: 6,
+            to: 3,
+            numberOfPoints: 4,
+            variant: "smooth"
+        });
+
+        ans[0].should.be.equal(6);
+        ans[1].should.be.equal(5);
+        ans[2].should.be.equal(4);
+        ans[3].should.be.equal(3);
+    });
 
 });
