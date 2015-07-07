@@ -112,7 +112,7 @@ describe('get equally spaced data', function () {
         ans[0].should.be.equal(2.5);
         ans[1].should.be.equal(10);
 
-
+        x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         y = [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0];
         ans = getEquallySpacedData(x, y, {
             from: 4,
