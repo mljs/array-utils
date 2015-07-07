@@ -19,6 +19,10 @@
     "url": "https://github.com/mljs/ArrayUtils/issues"
   },
   "homepage": "https://github.com/mljs/ArrayUtils#readme",
+  "dependencies": {
+    "ml-matrix": "0.1.0",
+    "ml-stat": "^1.0.1"
+  },
   "devDependencies": {
     "mocha": "^2.2.5",
     "mocha-better-spec-reporter": "^2.1.1",
