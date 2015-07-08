@@ -115,6 +115,15 @@ __Arguments__
 * `y` - Array of positions in the y axis.
 * `options` - Options in the way described.
 
+### SNV(data)
+
+Function that applies the standard normal variate (SNV) to each row vector of y's
+values.
+
+__Arguments__
+
+* `data` - Matrix of row vectors to apply the SNV.
+
 ## Authors
 
 - [Jefferson Hernandez](https://github.com/JeffersonH44)

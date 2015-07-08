@@ -52,6 +52,16 @@ function getEquallySpacedData(x, y, options) {
     return reverse ? output.reverse() : output;
 }
 
+/**
+ * function that retrieves the getEquallySpacedData with the variant "smooth"
+ *
+ * @param x
+ * @param y
+ * @param from - Initial point
+ * @param to - Final point
+ * @param numberOfPoints
+ * @returns {Array} - Array of y's equally spaced with the variant "smooth"
+ */
 function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
     var xLength = x.length;
 
@@ -129,6 +139,16 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
     return output;
 }
 
+/**
+ * function that retrieves the getEquallySpacedData with the variant "slot"
+ *
+ * @param x
+ * @param y
+ * @param from - Initial point
+ * @param to - Final point
+ * @param numberOfPoints
+ * @returns {Array} - Array of y's equally spaced with the variant "slot"
+ */
 function getEquallySpacedSlot(x, y, from, to, numberOfPoints) {
     var xLength = x.length;
 

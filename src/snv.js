@@ -4,6 +4,13 @@ exports.SNV = SNV;
 var Stat = require('ml-stat');
 var Matrix = require('ml-matrix');
 
+/**
+ * Function that applies the standard normal variate (SNV) to each row vector of y's
+ * values.
+ *
+ * @param data - Matrix of y vectors
+ * @returns {Matrix}
+ */
 function SNV(data) {
     var Y = data;
     if(!Matrix.isMatrix(data)) {
