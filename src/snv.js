@@ -9,7 +9,7 @@ var Matrix = require('ml-matrix');
  * values.
  *
  * @param data - Matrix of y vectors
- * @returns {Matrix}
+ * @returns {Object}
  */
 function SNV(data) {
     var Y = data;
@@ -20,5 +20,9 @@ function SNV(data) {
     var means = Matrix.columnVector(Stat.matrix.mean(data, 1));
     var std = Matrix.columnVector(Stat.matrix.standardDeviation(data.transpose(), means));
 
-    return Y.sub(means.mmul(Matrix.ones(1, Y.columns))).divM(std.mmul(Matrix.ones(1, Y.columns)));
+    return {
+        result: Y.sub(means.mmul(Matrix.ones(1, Y.columns))).divM(std.mmul(Matrix.ones(1, Y.columns))),
+        means: means,
+        standardDeviations: std
+    };
 }

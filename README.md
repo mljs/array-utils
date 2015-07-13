@@ -122,7 +122,8 @@ values.
 
 __Arguments__
 
-* `data` - Matrix of row vectors to apply the SNV.
+* `results` - object with three values, 'result' with the applied SNV, 'means' with
+              the means calculated, and 'standardDeviations' calculated by the SNV.
 
 ## Authors
 
