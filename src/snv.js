@@ -5,24 +5,14 @@ var Stat = require('ml-stat');
 var Matrix = require('ml-matrix');
 
 /**
- * Function that applies the standard normal variate (SNV) to each row vector of y's
- * values.
+ * Function that applies the standard normal variate (SNV) to an array of values.
  *
- * @param data - Matrix of y vectors
- * @returns {Object}
+ * @param data - Array of values.
+ * @returns {Array} - applied the SNV.
  */
 function SNV(data) {
-    var Y = data;
-    if(!Matrix.isMatrix(data)) {
-        Y = new Matrix(data).clone();
-    }
+    var mean = Stat.array.mean(data);
+    var std = Stat.array.standardDeviation(data);
 
-    var means = Matrix.columnVector(Stat.matrix.mean(data, 1));
-    var std = Matrix.columnVector(Stat.matrix.standardDeviation(data.transpose(), means));
-
-    return {
-        result: Y.sub(means.mmul(Matrix.ones(1, Y.columns))).divM(std.mmul(Matrix.ones(1, Y.columns))),
-        means: means,
-        standardDeviations: std
-    };
+    return new Matrix([data]).clone().sub(mean).div(std).getRow(0);
 }
