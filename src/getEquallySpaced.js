@@ -31,8 +31,14 @@ function getEquallySpacedData(x, y, options) {
 
     if (options === undefined) options = {};
 
-    var from = options.from === undefined ? x[0] : options.from;
+    var from = options.from === undefined ? x[0] : options.from
+    if (isNaN(from) || !isFinite(from)) {
+        throw new RangeError("'From' value must be a number");
+    }
     var to = options.to === undefined ? x[x.length - 1] : options.to;
+    if (isNaN(to) || !isFinite(to)) {
+        throw new RangeError("'To' value must be a number");
+    }
 
     var reverse = from > to;
     if(reverse) {
@@ -42,6 +48,9 @@ function getEquallySpacedData(x, y, options) {
     }
 
     var numberOfPoints = options.numberOfPoints === undefined ? 100 : options.numberOfPoints;
+    if (isNaN(numberOfPoints) || !isFinite(numberOfPoints)) {
+        throw new RangeError("'Number of points' value must be a number");
+    }
     if(numberOfPoints < 1)
         throw new RangeError("the number of point must be higher than 1");
 
