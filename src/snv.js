@@ -1,8 +1,7 @@
 'use strict';
 
 exports.SNV = SNV;
-var Stat = require('ml-stat');
-var Matrix = require('ml-matrix');
+var Stat = require('ml-stat').array;
 
 /**
  * Function that applies the standard normal variate (SNV) to an array of values.
@@ -11,8 +10,11 @@ var Matrix = require('ml-matrix');
  * @returns {Array} - applied the SNV.
  */
 function SNV(data) {
-    var mean = Stat.array.mean(data);
-    var std = Stat.array.standardDeviation(data);
-
-    return new Matrix([data]).clone().sub(mean).div(std).getRow(0);
+    var mean = Stat.mean(data);
+    var std = Stat.standardDeviation(data);
+    var result = data.slice();
+    for (var i = 0; i < data.length; i++) {
+        result[i] = (result[i] - mean) / std;
+    }
+    return result;
 }
