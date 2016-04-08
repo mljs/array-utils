@@ -1,5 +1,3 @@
-/// <reference path="../scripts/typings/node/node.d.ts" />
-/// <reference path="../scripts/typings/requirejs/require.d.ts" />
 'use strict';
 function getEquallySpacedData(x, y, options) {
     var xLength = x.length;
@@ -8,7 +6,6 @@ function getEquallySpacedData(x, y, options) {
     if (options === undefined) {
         options = {};
     }
-    //var from = options.from === undefined ? x[0] : options.from;
     var from;
     if (options.from === undefined) {
         from = x[0];
@@ -35,8 +32,8 @@ function getEquallySpacedData(x, y, options) {
     }
     if (numberOfPoints < 1)
         throw new RangeError("the number of point must be higher than 1");
-    //var algorithm = options.variant === "slot" ? "slot" : "smooth"; // default value: smooth
-    var algorithm;
+    
+    var algorithm; //default value: smooth
     if (options.variant === "slot") {
         algorithm = "slot";
     }
@@ -46,7 +43,6 @@ function getEquallySpacedData(x, y, options) {
     else {
         algorithm = "smooth";
     }
-    //var output = algorithm === "slot" ? getEquallySpacedSlot(x, y, from, to, numberOfPoints) : getEquallySpacedSmooth(x, y, from, to, numberOfPoints);
     var output;
     if (algorithm === "slot") {
         output = getEquallySpacedSlot(x, y, from, to, numberOfPoints);
