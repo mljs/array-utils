@@ -142,5 +142,4 @@ describe('get equally spaced data', function () {
         ans[2].should.be.equal(4);
         ans[3].should.be.equal(3);
     });
-
 });
