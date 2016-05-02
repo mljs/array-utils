@@ -12,7 +12,7 @@ describe('Array Utilities', function () {
         (result[1][1]).should.be.equal(2);
         (result[1][2]).should.be.equal(2);
     });
-
+    
     it('1D array to Coordinate Matrix', function () {
         var array = [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4];
 

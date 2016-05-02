@@ -17,13 +17,17 @@
  * value. The smooth variant is the same but takes the integral of the range
  * of the slot and divide by the step size between two points in the new array.
  *
- * @param x
+ * @param x - sorted increasing x values
  * @param y
  * @param options
  * @returns {Array} new array with the equally spaced data.
  *
  */
 function getEquallySpacedData(x, y, options) {
+    if (x.length>1 && x[0]>x[1]) {
+        x=x.reverse();
+        y=y.reverse();
+    }
 
     var xLength = x.length;
     if(xLength !== y.length)
@@ -188,6 +192,7 @@ function getEquallySpacedSlot(x, y, from, to, numberOfPoints) {
     var j = 0; // index of output
 
     main: while(true) {
+        if (previousX>=nextX) throw (new Error('x must be an increasing serie'));
         while (previousX - max > 0) {
             // no overlap with original point, just consume current value
             if(backOutsideSpectra) {
