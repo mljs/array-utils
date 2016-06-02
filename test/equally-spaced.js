@@ -158,4 +158,46 @@ describe('get equally spaced data', function () {
         ans[3].should.be.equal(3);
     });
 
+    describe('on jcamp data', function () {
+        var data = require('./data/jcamp.json');
+        var x = data.x;
+        var y = data.y;
+        
+        it('inbound', function () {
+            var ans = getEquallySpacedData(x, y, {
+                from: 100,
+                to: 1500,
+                numberOfPoints: 1000
+            });
+            ans.map(x => x.should.not.be.NaN());
+        });
+
+        it('out of bounds start', function () {
+            var ans = getEquallySpacedData(x, y, {
+                from: 0,
+                to: 1500,
+                numberOfPoints: 1000
+            });
+            ans.map(x => x.should.not.be.NaN());
+        });
+
+        it('out of bounds end', function () {
+            var ans = getEquallySpacedData(x, y, {
+                from: 1000,
+                to: 4500,
+                numberOfPoints: 1000
+            });
+            ans.map(x => x.should.not.be.NaN());
+        });
+
+        it('completely out of bounds', function () {
+            var ans = getEquallySpacedData(x, y, {
+                from: 3000,
+                to: 4500,
+                numberOfPoints: 1000
+            });
+            ans.map(x => x.should.equal(0));
+        });
+    });
+
 });

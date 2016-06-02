@@ -91,7 +91,7 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
     var min = start;
     var max = start + step;
 
-    var previousX = -Number.MAX_VALUE;
+    var previousX = Number.MIN_VALUE;
     var previousY = 0;
     var nextX = x[0] - initialOriginalStep;
     var nextY = 0;
