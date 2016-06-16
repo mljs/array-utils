@@ -176,7 +176,7 @@ function applyDotProduct(firstVector, secondVector) {
  */
 function scale(input, options){
     var y;
-    if(options.inplace){
+    if(options.inPlace){
         y = input;
     }
     else{
@@ -210,7 +210,6 @@ function scale(input, options){
         }
     }
     return y;
-
 }
 
 module.exports = {
