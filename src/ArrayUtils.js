@@ -184,8 +184,8 @@ function scale(input, options){
     }
     const max = options.max;
     const min = options.min;
-    if(max){
-        if(min){
+    if(typeof max === "number"){
+        if(typeof min === "number"){
             var minMax = Stat.minMax(input);
             var factor = (max - min)/(minMax.max-minMax.min);
             for(var i=0;i< y.length;i++){
@@ -201,7 +201,7 @@ function scale(input, options){
         }
     }
     else{
-        if(min){
+        if(typeof min === "number"){
             var currentMin = Stat.min(input);
             var factor = min/currentMin;
             for(var i=0;i< y.length;i++){

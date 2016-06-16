@@ -111,4 +111,13 @@ describe('Array Utilities', function () {
         result[0].should.be.equal(-1);
         result[4].should.be.equal(2);
     });
+
+    it('Scale vector negative and positive', function () {
+        var first = [-1, 0, 3, 4, 5];
+
+        var result = ArrayUtils.scale(first, {min:0, max: 6, inplace:true});
+        result.should.eql([0, 1, 4, 5, 6]);
+        first[0].should.be.equal(0);
+        first[first.length-1].should.be.equal(6);
+    });
 });
