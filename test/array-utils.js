@@ -81,4 +81,34 @@ describe('Array Utilities', function () {
         result[2].should.be.equal(26);
     });
 
+    it('Scale vector inplace and not-inplace', function () {
+        var first = [1, 2, 3, 4, 5];
+
+        var result = ArrayUtils.scale(first, {min:-1});
+        first[0].should.be.equal(1);
+        result[0].should.be.equal(-1);
+
+        var result = ArrayUtils.scale(first, {max:2});
+        first[0].should.be.equal(1);
+        result[0].should.be.equal(2/5);
+        result[4].should.be.equal(2);
+
+        var result = ArrayUtils.scale(first, {min:-1,max:2});
+        first[0].should.be.equal(1);
+        result[0].should.be.equal(-1);
+        result[4].should.be.equal(2);
+
+        var result = ArrayUtils.scale(first, {min:-1,max:2, inplace:true});
+        first[0].should.be.equal(-1);
+        first[4].should.be.equal(2);
+        result[0].should.be.equal(-1);
+        result[4].should.be.equal(2);
+
+        first = [1, 2, 3, 4, 5];
+        var result = ArrayUtils.scale(first, {min:-1,max:2, inplace:false});
+        first[0].should.be.equal(1);
+        first[4].should.be.equal(5);
+        result[0].should.be.equal(-1);
+        result[4].should.be.equal(2);
+    });
 });

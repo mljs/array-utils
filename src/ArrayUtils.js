@@ -1,5 +1,6 @@
 'use strict';
 
+const Stat = require('ml-stat').array;
 /**
  * Function that returns an array of points given 1D array as follows:
  *
@@ -165,6 +166,52 @@ function applyDotProduct(firstVector, secondVector) {
 
     return dotProductApplied;
 }
+/**
+ * To scale the input array between the specified min and max values. The operation is performed inplace
+ * if the options.inplace is specified. If only one of the min or max parameters is specified, then the scaling
+ * will multiply the input array by min/min(input) or max/max(input)
+ * @param input
+ * @param options
+ * @returns {*}
+ */
+function scale(input, options){
+    var y;
+    if(options.inplace){
+        y = input;
+    }
+    else{
+        y = new Array(input.length);
+    }
+    const max = options.max;
+    const min = options.min;
+    if(max){
+        if(min){
+            var minMax = Stat.minMax(input);
+            var factor = (max - min)/(minMax.max-minMax.min);
+            for(var i=0;i< y.length;i++){
+                y[i]=(input[i]-minMax.min)*factor+min;
+            }
+        }
+        else{
+            var currentMin = Stat.max(input);
+            var factor = max/currentMin;
+            for(var i=0;i< y.length;i++){
+                y[i] = input[i]*factor;
+            }
+        }
+    }
+    else{
+        if(min){
+            var currentMin = Stat.min(input);
+            var factor = min/currentMin;
+            for(var i=0;i< y.length;i++){
+                y[i] = input[i]*factor;
+            }
+        }
+    }
+    return y;
+
+}
 
 module.exports = {
     coordArrayToPoints: coordArrayToPoints,
@@ -173,6 +220,7 @@ module.exports = {
     coordMatrixToPoints: transpose,
     pointsToCoordArray: pointsToCoordArray,
     pointsToCoordMatrix: transpose,
-    applyDotProduct: applyDotProduct
+    applyDotProduct: applyDotProduct,
+    scale:scale
 };
 
