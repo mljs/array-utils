@@ -25,8 +25,8 @@
  */
 function getEquallySpacedData(x, y, options) {
     if (x.length>1 && x[0]>x[1]) {
-        x=x.reverse();
-        y=y.reverse();
+        x=x.slice().reverse();
+        y=y.slice().reverse();
     }
 
     var xLength = x.length;
