@@ -19,6 +19,16 @@ Function that returns an array of points given 1D array as follows:
 
 And receive the number of dimensions of each point.
 
+### uniqueX(xs, ys)
+
+In place modification of the 2 arrays to make X unique and sum the Y if X has the same value
+
+ * @param xs
+ * @param ys
+
+And receive the number of dimensions of each point.
+
+
 __Arguments__
 
 * `array` - 1D array
