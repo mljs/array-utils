@@ -8,21 +8,23 @@
 
 function uniqueX(xs, ys) {
     if (xs.length<2) return;
-    var oldXS=xs.slice();
-    var oldYS=ys.slice();
-    ys.fill(0);
-    ys[0]=oldYS[0];
 
-    var current=oldXS[0];
+    var current=xs[0];
     var counter=0;
 
-    for (var i=1; i<oldXS.length; i++) {
-        if (current !== oldXS[i]) {
+    for (var i=1; i<xs.length; i++) {
+        if (current !== xs[i]) {
             counter++;
-            current=oldXS[i];
-            xs[counter]=oldXS[i];
+            current=xs[i];
+            xs[counter]=xs[i];
+            if (i !== counter) {
+                ys[counter]=0;
+            }
         };
-        ys[counter]+=oldYS[i];
+        if (i !== counter) {
+            ys[counter]+=ys[i];
+        }
+        
     }
 
     xs.length=counter+1;

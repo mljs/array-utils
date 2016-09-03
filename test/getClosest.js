@@ -35,5 +35,4 @@ describe('getClosest', function () {
         getClosest(xs, ys, 7).should.eql({x:7, y:18});
         getClosest(xs, ys, 7).should.eql({x:7, y:18});
     });
-    
 });
