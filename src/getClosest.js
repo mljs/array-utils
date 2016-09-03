@@ -3,21 +3,26 @@
 
 
 function getClosest(xs, ys, target) {
+    if (! xs || xs.length===0) return {x: undefined, y: undefined};
     if (xs.length>1 && xs[0]>xs[1]) {
         xs=xs.slice().reverse();
         ys=ys.slice().reverse();
     }
 
+    if (target<xs[0]) {
+        return {x: xs[0], y: ys[0]};
+    } else if (target>xs[xs.length-1]) {
+        return {x: xs[xs.length-1], y: ys[xs.length-1]};
+    }
 
+    
     var under=0;
     var hover=xs.length-1;
     var position;
     var end=false;
-    if (target<xs)
+
     do {
         position=Math.floor((under+hover)/2);
-        console.log(position, under, hover);
-        
         if (xs[position]===target) {
             break;
         } else if (xs[position]>target) {
@@ -25,7 +30,6 @@ function getClosest(xs, ys, target) {
         } else {
             under=position;
         }
-        console.log('new',under, hover)
         switch (hover-under) {
             case 0:
                 if (under<(xs.length-1)) {
@@ -36,7 +40,6 @@ function getClosest(xs, ys, target) {
                 end=true;
                 break;
             case 1:
-                console.log(target-xs[under], xs[hover]-target)
                 if (target-xs[under]<xs[hover]-target) {
                     position=under;
                 } else {
