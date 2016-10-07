@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/mljs/ArrayUtils#readme",
   "dependencies": {
-    "ml-binary-search": "^1.0.1",
     "ml-stat": "^1.0.1"
   },
   "devDependencies": {
