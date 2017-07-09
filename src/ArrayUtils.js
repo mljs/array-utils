@@ -174,39 +174,40 @@ function applyDotProduct(firstVector, secondVector) {
  * @param options
  * @returns {*}
  */
-function scale(input, options){
-    var y;
-    if(options.inPlace){
-        y = input;
-    }
-    else{
-        y = new Array(input.length);
-    }
-    const max = options.max;
-    const min = options.min;
-    if(typeof max === "number"){
-        if(typeof min === "number"){
-            var minMax = Stat.minMax(input);
-            var factor = (max - min)/(minMax.max-minMax.min);
-            for(var i=0;i< y.length;i++){
-                y[i]=(input[i]-minMax.min)*factor+min;
+function scale(input, options = {}) {
+    const {
+        min = null,
+        max = null
+    } = options;
+    
+    var y = options.inPlace ? input : (new Array(input.length));
+    var minMax = Stat.minMax(input);
+    
+    if(typeof max === "number") {
+        if(typeof min === "number") {
+            let factor = (max - min) / (minMax.max - minMax.min);
+            for(let i = 0; i < y.length; i++) {
+                y[i] = (input[i] - minMax.min) * factor + min;
             }
+        } else if (minMax.max !== 0) {
+            let factor =  max / minMax.max;
+            for(let i = 0; i < y.length; i++) {
+                y[i] = input[i] * factor;
+            }
+        } else {
+            options.min = minMax.min;
+            y = scale(input, options);
         }
-        else{
-            var currentMin = Stat.max(input);
-            var factor = max/currentMin;
-            for(var i=0;i< y.length;i++){
-                y[i] = input[i]*factor;
+    } else if (typeof min === "number") {
+        if (minMax.min !== 0) {
+            let factor = min / minMax.min;
+            for(let i = 0; i < y.length; i++) {
+                y[i] = input[i] * factor;
             }
-        }
-    }
-    else{
-        if(typeof min === "number"){
-            var currentMin = Stat.min(input);
-            var factor = min/currentMin;
-            for(var i=0;i< y.length;i++){
-                y[i] = input[i]*factor;
-            }
+
+        } else {
+            options.max = minMax.max;
+            y = scale(input, options);
         }
     }
     return y;
