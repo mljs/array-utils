@@ -12,7 +12,7 @@ const Stat = require('ml-stat').array;
  * @returns {Array} - Array of points.
  */
 function coordArrayToPoints(array, dimensions) {
-    if(array.length % dimensions !== 0) {
+    if (array.length % dimensions !== 0) {
         throw new RangeError('Dimensions number must be accordance with the size of the array.');
     }
 
@@ -20,9 +20,9 @@ function coordArrayToPoints(array, dimensions) {
     var pointsArr = new Array(length);
 
     var k = 0;
-    for(var i = 0; i < array.length; i += dimensions) {
+    for (var i = 0; i < array.length; i += dimensions) {
         var point = new Array(dimensions);
-        for(var j = 0; j < dimensions; ++j) {
+        for (var j = 0; j < dimensions; ++j) {
             point[j] = array[i + j];
         }
 
@@ -47,7 +47,7 @@ function coordArrayToPoints(array, dimensions) {
  * @returns {Array} - Matrix of coordinates
  */
 function coordArrayToCoordMatrix(array, dimensions) {
-    if(array.length % dimensions !== 0) {
+    if (array.length % dimensions !== 0) {
         throw new RangeError('Dimensions number must be accordance with the size of the array.');
     }
 
@@ -57,8 +57,8 @@ function coordArrayToCoordMatrix(array, dimensions) {
         coordinatesArray[i] = new Array(points);
     }
 
-    for(i = 0; i < array.length; i += dimensions) {
-        for(var j = 0; j < dimensions; ++j) {
+    for (i = 0; i < array.length; i += dimensions) {
+        for (var j = 0; j < dimensions; ++j) {
             var currentPoint = Math.floor(i / dimensions);
             coordinatesArray[j][currentPoint] = array[i + j];
         }
@@ -80,8 +80,8 @@ function coordArrayToCoordMatrix(array, dimensions) {
 function coordMatrixToCoordArray(coordMatrix) {
     var coodinatesArray = new Array(coordMatrix.length * coordMatrix[0].length);
     var k = 0;
-    for(var i = 0; i < coordMatrix[0].length; ++i) {
-        for(var j = 0; j < coordMatrix.length; ++j) {
+    for (var i = 0; i < coordMatrix[0].length; ++i) {
+        for (var j = 0; j < coordMatrix.length; ++j) {
             coodinatesArray[k] = coordMatrix[j][i];
             ++k;
         }
@@ -100,12 +100,12 @@ function coordMatrixToCoordArray(coordMatrix) {
  */
 function transpose(matrix) {
     var resultMatrix = new Array(matrix[0].length);
-    for(var i = 0; i < resultMatrix.length; ++i) {
+    for (var i = 0; i < resultMatrix.length; ++i) {
         resultMatrix[i] = new Array(matrix.length);
     }
 
     for (i = 0; i < matrix.length; ++i) {
-        for(var j = 0; j < matrix[0].length; ++j) {
+        for (var j = 0; j < matrix[0].length; ++j) {
             resultMatrix[j][i] = matrix[i][j];
         }
     }
@@ -124,8 +124,8 @@ function transpose(matrix) {
 function pointsToCoordArray(points) {
     var coodinatesArray = new Array(points.length * points[0].length);
     var k = 0;
-    for(var i = 0; i < points.length; ++i) {
-        for(var j = 0; j < points[0].length; ++j) {
+    for (var i = 0; i < points.length; ++i) {
+        for (var j = 0; j < points[0].length; ++j) {
             coodinatesArray[k] = points[i][j];
             ++k;
         }
@@ -145,7 +145,7 @@ function pointsToCoordArray(points) {
  */
 function applyDotProduct(firstVector, secondVector) {
     var largestVector, smallestVector;
-    if(firstVector.length <= secondVector.length) {
+    if (firstVector.length <= secondVector.length) {
         smallestVector = firstVector;
         largestVector = secondVector;
     } else {
@@ -179,29 +179,29 @@ function scale(input, options = {}) {
         min,
         max
     } = options;
-    
+
     var y = options.inPlace ? input : (new Array(input.length));
     var minMax = Stat.minMax(input);
-    
-    if(typeof max === "number") {
-        if(typeof min === "number") {
+
+    if (typeof max === 'number') {
+        if (typeof min === 'number') {
             let factor = (max - min) / (minMax.max - minMax.min);
-            for(let i = 0; i < y.length; i++) {
+            for (let i = 0; i < y.length; i++) {
                 y[i] = (input[i] - minMax.min) * factor + min;
             }
         } else if (minMax.max !== 0) {
-            let factor =  max / minMax.max;
-            for(let i = 0; i < y.length; i++) {
+            let factor = max / minMax.max;
+            for (let i = 0; i < y.length; i++) {
                 y[i] = input[i] * factor;
             }
         } else {
             options.min = minMax.min;
             y = scale(input, options);
         }
-    } else if (typeof min === "number") {
+    } else if (typeof min === 'number') {
         if (minMax.min !== 0) {
             let factor = min / minMax.min;
-            for(let i = 0; i < y.length; i++) {
+            for (let i = 0; i < y.length; i++) {
                 y[i] = input[i] * factor;
             }
 
@@ -221,6 +221,6 @@ module.exports = {
     pointsToCoordArray: pointsToCoordArray,
     pointsToCoordMatrix: transpose,
     applyDotProduct: applyDotProduct,
-    scale:scale
+    scale: scale
 };
 

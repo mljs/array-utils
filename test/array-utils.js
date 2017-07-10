@@ -12,7 +12,7 @@ describe('Array Utilities', function () {
         (result[1][1]).should.be.equal(2);
         (result[1][2]).should.be.equal(2);
     });
-    
+
     it('1D array to Coordinate Matrix', function () {
         var array = [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4];
 
@@ -84,28 +84,28 @@ describe('Array Utilities', function () {
     it('Scale vector inplace and not-inplace', function () {
         var first = [1, 2, 3, 4, 5];
 
-        var result = ArrayUtils.scale(first, {min:-1});
+        var result = ArrayUtils.scale(first, {min: -1});
         first[0].should.be.equal(1);
         result[0].should.be.equal(-1);
 
-        var result = ArrayUtils.scale(first, {max:2});
+        var result = ArrayUtils.scale(first, {max: 2});
         first[0].should.be.equal(1);
-        result[0].should.be.equal(2/5);
+        result[0].should.be.equal(2 / 5);
         result[4].should.be.equal(2);
 
-        var result = ArrayUtils.scale(first, {min:-1,max:2});
+        var result = ArrayUtils.scale(first, {min: -1, max: 2});
         first[0].should.be.equal(1);
         result[0].should.be.equal(-1);
         result[4].should.be.equal(2);
 
-        var result = ArrayUtils.scale(first, {min:-1,max:2, inPlace:true});
+        var result = ArrayUtils.scale(first, {min: -1, max: 2, inPlace: true});
         first[0].should.be.equal(-1);
         first[4].should.be.equal(2);
         result[0].should.be.equal(-1);
         result[4].should.be.equal(2);
 
         first = [1, 2, 3, 4, 5];
-        var result = ArrayUtils.scale(first, {min:-1,max:2, inPlace:false});
+        var result = ArrayUtils.scale(first, {min: -1, max: 2, inPlace: false});
         first[0].should.be.equal(1);
         first[4].should.be.equal(5);
         result[0].should.be.equal(-1);
@@ -114,16 +114,16 @@ describe('Array Utilities', function () {
 
     it('Scale vector negative and positive', function () {
         var first = [-1, 0, 3, 4, 5];
-        var result = ArrayUtils.scale(first, {min:0, max: 6, inPlace:true});
+        var result = ArrayUtils.scale(first, {min: 0, max: 6, inPlace: true});
         result.should.eql([0, 1, 4, 5, 6]);
         first[0].should.be.equal(0);
-        first[first.length-1].should.be.equal(6);
+        first[first.length - 1].should.be.equal(6);
     });
-    
+
     it('Scale vector with min or max equal zero', function () {
         var first = [0, 1, 2, 3];
         ArrayUtils.scale(first, {min: 1, inPlace: true});
         first[0].should.be.equal(1);
         first[3].should.be.equal(3);
-    })
+    });
 });

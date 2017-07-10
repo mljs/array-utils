@@ -24,18 +24,19 @@
  *
  */
 function getEquallySpacedData(x, y, options) {
-    if (x.length>1 && x[0]>x[1]) {
-        x=x.slice().reverse();
-        y=y.slice().reverse();
+    if (x.length > 1 && x[0] > x[1]) {
+        x = x.slice().reverse();
+        y = y.slice().reverse();
     }
 
     var xLength = x.length;
-    if(xLength !== y.length)
+    if (xLength !== y.length) {
         throw new RangeError("the x and y vector doesn't have the same size.");
+    }
 
     if (options === undefined) options = {};
 
-    var from = options.from === undefined ? x[0] : options.from
+    var from = options.from === undefined ? x[0] : options.from;
     if (typeof from !== 'number' || isNaN(from)) {
         throw new RangeError("'from' option must be a number");
     }
@@ -45,7 +46,7 @@ function getEquallySpacedData(x, y, options) {
     }
 
     var reverse = from > to;
-    if(reverse) {
+    if (reverse) {
         var temp = from;
         from = to;
         to = temp;
@@ -55,12 +56,13 @@ function getEquallySpacedData(x, y, options) {
     if (typeof numberOfPoints !== 'number' || isNaN(numberOfPoints)) {
         throw new RangeError("'numberOfPoints' option must be a number");
     }
-    if(numberOfPoints < 1)
-        throw new RangeError("the number of points must be at least 1");
+    if (numberOfPoints < 1) {
+        throw new RangeError('the number of points must be at least 1');
+    }
 
-    var algorithm = options.variant === "slot" ? "slot" : "smooth"; // default value: smooth
+    var algorithm = options.variant === 'slot' ? 'slot' : 'smooth'; // default value: smooth
 
-    var output = algorithm === "slot" ? getEquallySpacedSlot(x, y, from, to, numberOfPoints) : getEquallySpacedSmooth(x, y, from, to, numberOfPoints);
+    var output = algorithm === 'slot' ? getEquallySpacedSlot(x, y, from, to, numberOfPoints) : getEquallySpacedSmooth(x, y, from, to, numberOfPoints);
 
     return reverse ? output.reverse() : output;
 }
@@ -109,7 +111,7 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
         return (y1 - y0) / (x1 - x0);
     }
 
-    main: while(true) {
+    main: while (true) {
         while (nextX - max >= 0) {
             // no overlap with original point, just consume current value
             var add = integral(0, max - previousX, slope, previousY);
@@ -118,15 +120,16 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
             output[j] = (sumAtMax - sumAtMin) / step;
             j++;
 
-            if (j === numberOfPoints)
+            if (j === numberOfPoints) {
                 break main;
+            }
 
             min = max;
             max += step;
             sumAtMin = sumAtMax;
         }
 
-        if(previousX <= min && min <= nextX) {
+        if (previousX <= min && min <= nextX) {
             add = integral(0, min - previousX, slope, previousY);
             sumAtMin = currentValue + add;
         }
@@ -146,7 +149,7 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
         }
         // updating parameters
         slope = getSlope(previousX, previousY, nextX, nextY);
-        intercept = -slope*previousX + previousY;
+        intercept = -slope * previousX + previousY;
     }
 
     return output;
@@ -191,11 +194,11 @@ function getEquallySpacedSlot(x, y, from, to, numberOfPoints) {
     var i = 1; // index of input
     var j = 0; // index of output
 
-    main: while(true) {
-        if (previousX>=nextX) throw (new Error('x must be an increasing serie'));
+    main: while (true) {
+        if (previousX >= nextX) throw (new Error('x must be an increasing serie'));
         while (previousX - max > 0) {
             // no overlap with original point, just consume current value
-            if(backOutsideSpectra) {
+            if (backOutsideSpectra) {
                 currentPoints++;
                 backOutsideSpectra = false;
             }
@@ -203,8 +206,9 @@ function getEquallySpacedSlot(x, y, from, to, numberOfPoints) {
             output[j] = currentPoints <= 0 ? 0 : currentValue / currentPoints;
             j++;
 
-            if (j === numberOfPoints)
+            if (j === numberOfPoints) {
                 break main;
+            }
 
             min = max;
             max += step;
@@ -212,13 +216,14 @@ function getEquallySpacedSlot(x, y, from, to, numberOfPoints) {
             currentPoints = 0;
         }
 
-        if(previousX > min) {
+        if (previousX > min) {
             currentValue += previousY;
             currentPoints++;
         }
 
-        if(previousX === -Number.MAX_VALUE || frontOutsideSpectra > 1)
+        if (previousX === -Number.MAX_VALUE || frontOutsideSpectra > 1) {
             currentPoints--;
+        }
 
         previousX = nextX;
         previousY = nextY;
