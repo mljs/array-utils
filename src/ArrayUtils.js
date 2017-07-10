@@ -176,8 +176,8 @@ function applyDotProduct(firstVector, secondVector) {
  */
 function scale(input, options = {}) {
     const {
-        min = null,
-        max = null
+        min,
+        max
     } = options;
     
     var y = options.inPlace ? input : (new Array(input.length));
