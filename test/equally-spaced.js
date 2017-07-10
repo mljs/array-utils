@@ -59,7 +59,7 @@ describe('get equally spaced data', function () {
             from: 0,
             to: 10,
             numberOfPoints: 3,
-            variant: "slot"
+            variant: 'slot'
         });
 
         ans[0].should.be.equal(1);
@@ -73,7 +73,7 @@ describe('get equally spaced data', function () {
             from: -5,
             to: 15,
             numberOfPoints: 5,
-            variant: "slot"
+            variant: 'slot'
         });
 
         ans[0].should.be.equal(0);
@@ -90,7 +90,7 @@ describe('get equally spaced data', function () {
             from: 0,
             to: 10,
             numberOfPoints: 5,
-            variant: "slot"
+            variant: 'slot'
         });
 
         ans[0].should.be.equal(0);
@@ -106,7 +106,7 @@ describe('get equally spaced data', function () {
             from: 0,
             to: 10,
             numberOfPoints: 2,
-            variant: "slot"
+            variant: 'slot'
         });
 
         ans[0].should.be.equal(2.5);
@@ -119,13 +119,12 @@ describe('get equally spaced data', function () {
             from: 0,
             to: 10,
             numberOfPoints: 2,
-            variant: "slot"
+            variant: 'slot'
         });
 
         ans[0].should.be.equal(2.5);
         ans[1].should.be.equal(10);
-        
-        
+
 
         x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         y = [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0];
@@ -133,7 +132,7 @@ describe('get equally spaced data', function () {
             from: 4,
             to: 6,
             numberOfPoints: 3,
-            variant: "slot"
+            variant: 'slot'
         });
 
         ans[0].should.be.equal(4);
@@ -149,7 +148,7 @@ describe('get equally spaced data', function () {
             from: 6,
             to: 3,
             numberOfPoints: 4,
-            variant: "smooth"
+            variant: 'smooth'
         });
 
         ans[0].should.be.equal(6);
@@ -162,7 +161,7 @@ describe('get equally spaced data', function () {
         var data = require('./data/jcamp.json');
         var x = data.x;
         var y = data.y;
-        
+
         it('inbound', function () {
             var ans = getEquallySpacedData(x, y, {
                 from: 100,
