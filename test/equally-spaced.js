@@ -197,6 +197,26 @@ describe('get equally spaced data', function () {
             });
             ans.map(x => x.should.equal(0));
         });
+        it.only('Array with negative numbers', () => {
+            let data = require('./data/debug.json');
+            let {x, y} = data;
+            // let firstX = x[0];
+            // let lastX = x[x.length - 1];
+            // let middle = (firstX + lastX) / 2;
+            // let newX = x.map((e) => e - middle);
+            // let sum = 0;
+            // console.log(newX[0]);
+            // console.log(newX[newX.length - 1]);
+            let ans = getEquallySpacedData(x, y, {
+                from: 0,
+                to: 200,
+                numberOfPoints: 4*1024,
+                variant: 'smooth'
+            });
+            let index = x.indexOf(0);
+            console.log(ans.length);
+            console.log(y[3018], ans[0]);
+        })
     });
 
 });
