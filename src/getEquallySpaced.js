@@ -23,36 +23,37 @@
  * @returns {Array} new array with the equally spaced data.
  *
  */
-function getEquallySpacedData(x, y, options) {
-    if (x.length > 1 && x[0] > x[1]) {
+function getEquallySpacedData(x, y, options = {}) {
+    var reverse = x[0] > x[1];
+    var xLength = x.length;
+    if (x.length > 1 && reverse) {
         x = x.slice().reverse();
         y = y.slice().reverse();
     }
 
-    var xLength = x.length;
+    var {
+        from = x[0],
+        to = x[xLength - 1],
+        variant = 'smooth',
+        numberOfPoints = 100
+    } = options;
+    
     if (xLength !== y.length) {
         throw new RangeError("the x and y vector doesn't have the same size.");
     }
 
-    if (options === undefined) options = {};
-
-    var from = options.from === undefined ? x[0] : options.from;
     if (typeof from !== 'number' || isNaN(from)) {
         throw new RangeError("'from' option must be a number");
     }
-    var to = options.to === undefined ? x[x.length - 1] : options.to;
+
     if (typeof to !== 'number' || isNaN(to)) {
         throw new RangeError("'to' option must be a number");
     }
 
-    var reverse = from > to;
-    if (reverse) {
-        var temp = from;
-        from = to;
-        to = temp;
+    if (from > to) {
+        [from, to] = [to, from];
     }
 
-    var numberOfPoints = options.numberOfPoints === undefined ? 100 : options.numberOfPoints;
     if (typeof numberOfPoints !== 'number' || isNaN(numberOfPoints)) {
         throw new RangeError("'numberOfPoints' option must be a number");
     }
@@ -60,11 +61,10 @@ function getEquallySpacedData(x, y, options) {
         throw new RangeError('the number of points must be at least 1');
     }
 
-    var algorithm = options.variant === 'slot' ? 'slot' : 'smooth'; // default value: smooth
 
-    var output = algorithm === 'slot' ? getEquallySpacedSlot(x, y, from, to, numberOfPoints) : getEquallySpacedSmooth(x, y, from, to, numberOfPoints);
-
-    return reverse ? output.reverse() : output;
+    var output = variant === 'slot' ? getEquallySpacedSlot(x, y, from, to, numberOfPoints) : getEquallySpacedSmooth(x, y, from, to, numberOfPoints);
+    if (reverse) output.reverse()
+    return output;
 }
 
 /**
@@ -83,15 +83,14 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
     var step = (to - from) / (numberOfPoints - 1);
     var halfStep = step / 2;
 
-    var start = from - halfStep;
     var output = new Array(numberOfPoints);
 
     var initialOriginalStep = x[1] - x[0];
-    var lastOriginalStep = x[x.length - 1] - x[x.length - 2];
+    var lastOriginalStep = x[xLength - 1] - x[xLength - 2];
 
     // Init main variables
-    var min = start;
-    var max = start + step;
+    var min = from - halfStep;
+    var max = from + halfStep;
 
     var previousX = Number.MIN_VALUE;
     var previousY = 0;
@@ -112,13 +111,18 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
     }
 
     main: while (true) {
+        
+        if (previousX <= min && min <= nextX) {
+            add = integral(0, min - previousX, slope, previousY);
+            sumAtMin = currentValue + add;
+        }
+        
         while (nextX - max >= 0) {
             // no overlap with original point, just consume current value
             var add = integral(0, max - previousX, slope, previousY);
             sumAtMax = currentValue + add;
 
-            output[j] = (sumAtMax - sumAtMin) / step;
-            j++;
+            output[j++] = (sumAtMax - sumAtMin) / step;
 
             if (j === numberOfPoints) {
                 break main;
@@ -128,12 +132,7 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
             max += step;
             sumAtMin = sumAtMax;
         }
-
-        if (previousX <= min && min <= nextX) {
-            add = integral(0, min - previousX, slope, previousY);
-            sumAtMin = currentValue + add;
-        }
-
+        
         currentValue += integral(previousX, nextX, slope, intercept);
 
         previousX = nextX;
@@ -147,11 +146,11 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
             nextX += lastOriginalStep;
             nextY = 0;
         }
-        // updating parameters
+        
         slope = getSlope(previousX, previousY, nextX, nextY);
         intercept = -slope * previousX + previousY;
     }
-
+    
     return output;
 }
 
