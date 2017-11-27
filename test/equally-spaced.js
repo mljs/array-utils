@@ -137,10 +137,10 @@ describe('get equally spaced data', function () {
             variant: 'smooth'
         });
         
-        ans[3].should.be.equal(6);
-        ans[2].should.be.equal(5);
-        ans[1].should.be.equal(4);
-        ans[0].should.be.equal(3);
+        ans[0].should.be.equal(6);
+        ans[1].should.be.equal(5);
+        ans[2].should.be.equal(4);
+        ans[3].should.be.equal(3);
     });
 
     describe('on jcamp data', function () {
