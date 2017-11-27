@@ -24,9 +24,8 @@
  *
  */
 function getEquallySpacedData(x, y, options = {}) {
-    var reverse = x[0] > x[1];
     var xLength = x.length;
-    if (x.length > 1 && reverse) {
+    if (x.length > 1 && x[0] > x[1]) {
         x = x.slice().reverse();
         y = y.slice().reverse();
     }
@@ -50,7 +49,8 @@ function getEquallySpacedData(x, y, options = {}) {
         throw new RangeError("'to' option must be a number");
     }
 
-    if (from > to) {
+    var reverse = from > to;
+    if (reverse) {
         [from, to] = [to, from];
     }
 
@@ -61,10 +61,9 @@ function getEquallySpacedData(x, y, options = {}) {
         throw new RangeError('the number of points must be at least 1');
     }
 
-
     var output = variant === 'slot' ? getEquallySpacedSlot(x, y, from, to, numberOfPoints) : getEquallySpacedSmooth(x, y, from, to, numberOfPoints);
-    if (reverse) output.reverse()
-    return output;
+    
+    return reverse ? output.reverse() : output;
 }
 
 /**
