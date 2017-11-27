@@ -112,6 +112,17 @@ describe('get equally spaced data', function () {
         ans[0].should.be.equal(2.5);
         ans[1].should.be.equal(10);
 
+        x = [10, 5, 0];
+        y = [10, 5, 0];
+        var ans = getEquallySpacedData(x, y, {
+            from: 0,
+            to: 10,
+            numberOfPoints: 2,
+            variant: 'slot'
+        });
+        ans[0].should.be.equal(2.5);
+        ans[1].should.be.equal(10);
+
         x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         y = [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0];
         ans = getEquallySpacedData(x, y, {
@@ -202,7 +213,7 @@ describe('get equally spaced data', function () {
 
             (y[index0] * 1.1 <= ans[0]).should.be.ok();
             (y[index200] * 1.1 <= ans[7 * 1024 - 1]).should.be.ok();
-        })
+        });
     });
 
 });

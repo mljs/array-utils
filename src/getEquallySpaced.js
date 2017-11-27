@@ -36,7 +36,7 @@ function getEquallySpacedData(x, y, options = {}) {
         variant = 'smooth',
         numberOfPoints = 100
     } = options;
-    
+
     if (xLength !== y.length) {
         throw new RangeError("the x and y vector doesn't have the same size.");
     }
@@ -62,7 +62,7 @@ function getEquallySpacedData(x, y, options = {}) {
     }
 
     var output = variant === 'slot' ? getEquallySpacedSlot(x, y, from, to, numberOfPoints) : getEquallySpacedSmooth(x, y, from, to, numberOfPoints);
-    
+
     return reverse ? output.reverse() : output;
 }
 
@@ -110,12 +110,12 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
     }
 
     main: while (true) {
-        
+
         if (previousX <= min && min <= nextX) {
             add = integral(0, min - previousX, slope, previousY);
             sumAtMin = currentValue + add;
         }
-        
+
         while (nextX - max >= 0) {
             // no overlap with original point, just consume current value
             var add = integral(0, max - previousX, slope, previousY);
@@ -131,7 +131,7 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
             max += step;
             sumAtMin = sumAtMax;
         }
-        
+
         currentValue += integral(previousX, nextX, slope, intercept);
 
         previousX = nextX;
@@ -145,11 +145,11 @@ function getEquallySpacedSmooth(x, y, from, to, numberOfPoints) {
             nextX += lastOriginalStep;
             nextY = 0;
         }
-        
+
         slope = getSlope(previousX, previousY, nextX, nextY);
         intercept = -slope * previousX + previousY;
     }
-    
+
     return output;
 }
 
@@ -242,7 +242,6 @@ function getEquallySpacedSlot(x, y, from, to, numberOfPoints) {
 /**
  * Function that calculates the integral of the line between two
  * x-coordinates, given the slope and intercept of the line.
- *
  * @param x0
  * @param x1
  * @param slope
