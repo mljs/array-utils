@@ -1,6 +1,6 @@
 {
   "name": "ml-array-utils",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Array utilities",
   "main": "src/index.js",
   "directories": {

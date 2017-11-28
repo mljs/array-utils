@@ -1,3 +1,13 @@
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/mljs/ArrayUtils/compare/v0.3.0...v0.4.0) (2017-11-28)
+
+
+### Bug Fixes
+
+* refactor of getEquallySpacedData to avoid wrong values at the beginnig ([#11](https://github.com/mljs/ArrayUtils/issues/11)) ([f17e0a1](https://github.com/mljs/ArrayUtils/commit/f17e0a1))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/mljs/ArrayUtils/compare/v0.2.4...v0.3.0) (2016-10-07)
 
